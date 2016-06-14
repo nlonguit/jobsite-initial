@@ -12,16 +12,15 @@ import java.util.List;
 public class Authority {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "NAME", length = 50)
+    @Column(name = "name", length = 50)
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    /*@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
-    private List<User> users;*/
+    @ManyToMany(mappedBy  = "authorities")
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -39,11 +38,11 @@ public class Authority {
         this.name = name;
     }
 
-/*    public List<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
     public void setUsers(List<User> users) {
         this.users = users;
-    }*/
+    }
 }

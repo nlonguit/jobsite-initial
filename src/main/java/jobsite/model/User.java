@@ -15,6 +15,7 @@ import java.util.List;
 public class User implements Serializable{
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -41,9 +42,12 @@ public class User implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AuthorityName role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+    private List<Authority> authorities;
 
     public Long getId() {
         return id;
@@ -109,12 +113,11 @@ public class User implements Serializable{
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    public AuthorityName getRole() {
-        return role;
+    public List<Authority> getAuthorities() {
+        return authorities;
     }
 
-    public void setRole(AuthorityName role) {
-        this.role = role;
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
-
 }
